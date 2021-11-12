@@ -1,15 +1,16 @@
-from sqlalchemy import Column, String, Integer
+from typing import Type
+from weakref import WeakValueDictionary
+
+from sqlalchemy import Column, Integer, String, UniqueConstraint, create_engine
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-
 Base = declarative_base()
-engine = create_engine("sqlite:///news.db")
+engine = create_engine("sqlite://")
 session = sessionmaker(bind=engine)
 
 
-class News(Base):
+class News(Base):  # type: ignore
     __tablename__ = "news"
     id = Column(Integer, primary_key=True)
     title = Column(String)
@@ -18,5 +19,11 @@ class News(Base):
     comments = Column(Integer)
     points = Column(Integer)
     label = Column(String)
+    __table_args__ = (
+        UniqueConstraint(
+            "title", "author", name="title_author_unique_pair", sqlite_on_conflict="IGNORE"
+        ),
+    )
+
 
 Base.metadata.create_all(bind=engine)
