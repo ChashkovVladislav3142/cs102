@@ -199,6 +199,3 @@ class TestStaticHTTPServer(unittest.TestCase):
         ctype = r.headers.get("Content-Type")
         self.assertEqual(ctype, "image/png")
 
-
-
-
