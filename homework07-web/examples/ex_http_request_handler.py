@@ -2,7 +2,9 @@ from httpserver import BaseHTTPRequestHandler, HTTPServer
 
 
 def main():
-    server = HTTPServer(port=5000, backlog_size=1, request_handler_cls=BaseHTTPRequestHandler)
+    server = HTTPServer(
+        timeout=10, port=5000, backlog_size=1, request_handler_cls=BaseHTTPRequestHandler
+    )
     server.serve_forever()
 
 
