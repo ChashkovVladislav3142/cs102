@@ -5,6 +5,8 @@ from httpserver import BaseHTTPRequestHandler, HTTPServer
 from .request import WSGIRequest
 from .response import WSGIResponse
 
+ApplicationType = tp.Any
+
 
 class WSGIServer(HTTPServer):
     def __init__(self, *args, **kwargs) -> None:
@@ -19,14 +21,20 @@ class WSGIServer(HTTPServer):
 
 
 class WSGIRequestHandler(BaseHTTPRequestHandler):
-    request_klass = WSGIRequest
-    response_klass = WSGIResponse
+    request_class = WSGIRequest
+    response_class = WSGIResponse
 
     def handle_request(self, request: WSGIRequest) -> WSGIResponse:
-        # сформировать словарь с переменными окружения
-        # дополнить словарь информацией о сервере
-        # вызвать приложение передав ему словарь с переменными окружения и callback'ом
-        # ответ приложения представить в виде байтовой строки
-        # вернуть объект класса WSGIResponse
-        pass
+        environ = {
+            **request.to_environ(),
+            # Server-side
+            "SERVER_NAME": self.address[0],
+            "SERVER_PORT": str(self.address[1]),
+            "SERVER_PROTOCOL": "HTTP/1.1",
+        }
 
+        response = self.response_class()
+        data_response = self.server.app(environ, response.start_response)
+        response.body = b"".join(data_response)
+
+        return response
