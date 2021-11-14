@@ -13,3 +13,5 @@ class WSGIResponse(HTTPResponse):
     ) -> None:
         self.headers = dict(response_headers)
         self.status = int(status.split(" ")[0])
+
+        
