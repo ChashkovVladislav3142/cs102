@@ -200,21 +200,22 @@ class TestStaticHTTPServer(unittest.TestCase):
         self.assertEqual(ctype, "image/png")
 
 
-loader = unittest.TestLoader()
-suite = unittest.TestSuite()
-a = loader.loadTestsFromTestCase(TestStaticHTTPServer)
-suite.addTest(a)
+# loader = unittest.TestLoader()
+# suite = unittest.TestSuite()
+# a = loader.loadTestsFromTestCase(TestStaticHTTPServer)
+# suite.addTest(a)
+#
+#
+# class NewResult(unittest.TextTestResult):
+#     def getDescription(self, test):
+#         doc_first_line = test.shortDescription()
+#         return doc_first_line or ""
+#
+#
+# class NewRunner(unittest.TextTestRunner):
+#     resultclass = NewResult
+#
+#
+# runner = NewRunner(verbosity=2)
+# runner.run(suite)
 
-
-class NewResult(unittest.TextTestResult):
-    def getDescription(self, test):
-        doc_first_line = test.shortDescription()
-        return doc_first_line or ""
-
-
-class NewRunner(unittest.TextTestRunner):
-    resultclass = NewResult
-
-
-runner = NewRunner(verbosity=2)
-runner.run(suite)
