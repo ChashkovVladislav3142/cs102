@@ -1,4 +1,4 @@
-from slowapi.response import Response, JsonResponse
+from slowapi.response import JsonResponse, Response
 
 
 class Middleware:
@@ -23,3 +23,4 @@ class CORSMiddleware(Middleware):
             response.headers.update(cors_headers)
             return response
 
+        
