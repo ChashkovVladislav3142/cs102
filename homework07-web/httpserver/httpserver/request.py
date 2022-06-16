@@ -8,3 +8,4 @@ class HTTPRequest:
     url: bytes
     headers: tp.Dict[bytes, bytes]
     body: bytes
+
